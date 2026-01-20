@@ -23,14 +23,28 @@ function generateUserId(): string {
 }
 
 /**
+ * Get API base URL from environment variable
+ * Evaluated at runtime to ensure Vercel env vars are used
+ */
+function getApiBaseUrl(): string {
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+}
+
+/**
  * API Client Class
  *
  * Singleton class providing all API methods.
  * Communicates with FastAPI backend via NEXT_PUBLIC_API_URL environment variable.
  */
 class APIClient {
-  private baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
   private token: string | null = null
+
+  /**
+   * Get the base URL for API requests
+   */
+  private get baseURL(): string {
+    return getApiBaseUrl()
+  }
 
   /**
    * Set authentication token

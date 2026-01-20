@@ -3,7 +3,12 @@
 import React, { createContext, useContext, useReducer, useEffect, useCallback, type ReactNode } from 'react'
 import type { Task, AppState, TaskAction, FilterType } from '@/types/task'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+/**
+ * Get API base URL - evaluated at runtime
+ */
+function getApiBaseUrl(): string {
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+}
 
 /**
  * Get auth token from localStorage
@@ -172,7 +177,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SET_LOADING', payload: true })
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/${userId}/tasks`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/${userId}/tasks`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -212,7 +217,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SET_LOADING', payload: true })
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/${userId}/tasks`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/${userId}/tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -254,7 +259,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/${userId}/tasks/${id}`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/${userId}/tasks/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -286,7 +291,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/${userId}/tasks/${id}`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/${userId}/tasks/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -322,7 +327,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'TOGGLE_COMPLETE', payload: id })
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/${userId}/tasks/${id}`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/${userId}/tasks/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

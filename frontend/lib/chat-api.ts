@@ -11,7 +11,12 @@
 import type { ChatResponse, ChatMessage, ConversationSummary, Conversation, ToolCall } from '@/types/chat'
 import type { APIResponse } from '@/types/auth'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+/**
+ * Get API base URL - evaluated at runtime
+ */
+function getApiBaseUrl(): string {
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+}
 
 /**
  * Get auth token from localStorage
@@ -63,7 +68,7 @@ export async function sendMessage(
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/${userId}/chat`, {
+    const response = await fetch(`${getApiBaseUrl()}/api/${userId}/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -138,7 +143,7 @@ export async function getConversations(
     })
 
     const response = await fetch(
-      `${API_BASE_URL}/api/${userId}/conversations?${params}`,
+      `${getApiBaseUrl()}/api/${userId}/conversations?${params}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -207,7 +212,7 @@ export async function getConversationHistory(
     })
 
     const response = await fetch(
-      `${API_BASE_URL}/api/${userId}/conversations/${conversationId}?${params}`,
+      `${getApiBaseUrl()}/api/${userId}/conversations/${conversationId}?${params}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -280,7 +285,7 @@ export async function deleteConversation(
 
   try {
     const response = await fetch(
-      `${API_BASE_URL}/api/${userId}/conversations/${conversationId}`,
+      `${getApiBaseUrl()}/api/${userId}/conversations/${conversationId}`,
       {
         method: 'DELETE',
         headers: {
