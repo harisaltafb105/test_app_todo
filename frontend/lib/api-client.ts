@@ -26,10 +26,10 @@ function generateUserId(): string {
  * API Client Class
  *
  * Singleton class providing all API methods.
- * Communicates with FastAPI backend at http://localhost:8000
+ * Communicates with FastAPI backend via NEXT_PUBLIC_API_URL environment variable.
  */
 class APIClient {
-  private baseURL = 'http://localhost:8000' // FastAPI backend endpoint
+  private baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
   private token: string | null = null
 
   /**

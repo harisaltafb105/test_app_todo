@@ -40,7 +40,6 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://test-app-todo.vercel.app"
         "http://localhost:3000",  # Next.js default port
         "http://localhost:3001",  # Alternative Next.js port
         "http://localhost:3002",  # Alternative Next.js port
